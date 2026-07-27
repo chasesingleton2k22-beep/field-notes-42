@@ -17,7 +17,7 @@ if('serviceWorker' in navigator){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#060e19">
 <link rel="manifest" href="./manifest.json">
-<title>Chapter Trade</title>
+<title>Bone Wolf River — Working Copy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
@@ -1442,41 +1442,7 @@ body.wide-mode #p-read::after{left:0}
 .ncm-box{max-height:92vh;overflow-y:auto}
 
 
-/* COMMUNITY MODE */
-.sb-item.locked{opacity:.45;cursor:default}
-.sb-item.locked .sb-title::after{content:' [locked]';font-size:8px;opacity:.55;letter-spacing:.08em}
-/* Blurred chapter overlay */
-.chapter.comm-blurred{position:relative}
-.chapter.comm-blurred .pb,
-.chapter.comm-blurred .pd,
-.chapter.comm-blurred .pp,
-.chapter.comm-blurred .pi,
-.chapter.comm-blurred .pq,
-.chapter.comm-blurred .pv{filter:blur(7px);user-select:none;pointer-events:none}
-.chapter.comm-blurred .ch-banner{filter:none!important;opacity:1!important}
-.chapter.comm-blurred .ch-title{filter:none!important}
-.comm-lock-overlay{
-  position:sticky;
-  top:42%;
-  display:flex;flex-direction:column;align-items:center;gap:12px;
-  pointer-events:none;z-index:10;
-  margin-top:-120px;
-}
-.comm-lock-icon{
-  font-size:38px;color:var(--gold,#c9a84c);
-  opacity:.85;
-  text-shadow:0 2px 12px rgba(0,0,0,.7);
-}
-.comm-lock-msg{
-  font-family:var(--font-h,'serif');
-  letter-spacing:.22em;text-transform:uppercase;
-  font-size:10px;color:var(--gold-dim,#a07c2a);
-  background:rgba(10,10,18,.72);
-  padding:6px 18px;border-radius:2px;
-}
-.lock-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:16px;font-family:var(--font-h);color:var(--gold-dim);letter-spacing:.18em;text-transform:uppercase}
-.lock-screen .lock-icon{font-size:36px;opacity:.3;filter:grayscale(1)}
-.lock-screen .lock-msg{font-size:10px}
+
 </style>
 </head>
 <body>
@@ -10418,72 +10384,5 @@ if ('serviceWorker' in navigator) {
 </script>
 <button id="btn-update" onclick="forceUpdate()" title="Get latest updates">&#8635; Update</button>
 <div id="bwr-footer">&#169; 2026  &nbsp;&middot;&nbsp; <em>The Bone Wolf River</em>&#8482; &nbsp;&middot;&nbsp; All rights reserved. Unpublished manuscript.</div>
-<script>
-(function(){
-  if(!window.COMMUNITY_MODE)return;
-
-  var FULLY_UNLOCKED=['opening', 'watching-britannia', 'chapter1', 'chapter2', 'chapter3', 'watching-taking', 'cole-fenton', 'brazos', 'watching-storm', 'ch-gloria', 'ch-arrival', 'ch-bonfire', 'watching1', 'watching2', 'charlotte', 'carter-watching', 'ch-initiation', 'ch-gunnar-cole', 'ch-ira', 'brittany', 'ch-keeper'];
-
-  /* 2. Wrap bootApp */
-  var _origBoot=window.bootApp;
-  window.bootApp=function(){
-    _origBoot&&_origBoot.apply(this,arguments);
-    /* Mark locked sidebar items */
-    document.querySelectorAll('#sb-links .sb-item').forEach(function(item){
-      if(LOCKED_CHAPTERS.indexOf(item.getAttribute('data-chid'))>=0)
-        item.classList.add('locked');
-    });
-    /* Keep reading tab active */
-    var readTab=document.querySelector('.tab[data-panel="p-read"]');
-    if(readTab){
-      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
-      readTab.classList.add('on');
-    }
-  };
-
-  /* 3. Override showChapter */
-  var _origShow=window.showChapter;
-  window.showChapter=function(id){
-    /* Remove any previous blur overlay */
-    document.querySelectorAll('.chapter').forEach(function(c){
-      c.classList.remove('comm-blurred');
-      var ov=c.querySelector('.comm-lock-overlay');
-      if(ov)ov.remove();
-    });
-    /* Remove standalone lock screen */
-    var ex=document.getElementById('_comm_lock');if(ex)ex.remove();
-
-    if(FULLY_UNLOCKED.indexOf(id)>=0){
-      /* Open normally */
-      _origShow&&_origShow.apply(this,arguments);
-      return;
-    }
-
-    /* Show the chapter blurred */
-    _origShow&&_origShow.apply(this,arguments);
-    var chapEl=document.getElementById(id)||document.querySelector('[data-chid="'+id+'"]');
-    /* find the rendered chapter div */
-    var allChaps=document.querySelectorAll('#chapters .chapter');
-    allChaps.forEach(function(c){
-      if(c.classList.contains('on')){
-        c.classList.add('comm-blurred');
-        /* Inject overlay after the banner/title */
-        var ov=document.createElement('div');
-        ov.className='comm-lock-overlay';
-        ov.innerHTML='<div class="comm-lock-icon">&#x1F512;</div><div class="comm-lock-msg">Coming Soon</div>';
-        c.insertBefore(ov,c.children[1]||null);
-      }
-    });
-    /* Update sidebar active highlight */
-    document.querySelectorAll('#sb-links .sb-item').forEach(function(a){
-      a.classList.remove('on');
-      if(a.getAttribute('data-chid')===id)a.classList.add('on');
-    });
-    var reader=document.getElementById('reader');
-    if(reader)reader.scrollTop=0;
-  };
-
-})();
-</script>
 </body>
 </html>
