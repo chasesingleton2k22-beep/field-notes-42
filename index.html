@@ -743,7 +743,7 @@ table.tbl tr:hover td{background:rgba(201,168,76,.035)}
 .arch-wc{font-family:var(--font-h);font-size:7.5px;color:var(--gold-dim);letter-spacing:.1em}
 .arch-mins{font-family:var(--font-h);font-size:7.5px;color:rgba(201,168,76,.3);letter-spacing:.08em}
 
-/* ── STORY COMPASS AI UPGRADE ──────────────────────────────────────── */
+/* ── STORY COMPASS UPGRADE ── */
 .cmp-api-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;padding:10px 14px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1)}
 .cmp-api-label{font-family:var(--font-h);font-size:7px;color:var(--gold-dim);letter-spacing:.18em;text-transform:uppercase;flex-shrink:0}
 .cmp-api-input{font-family:var(--font-b);font-size:13px;color:var(--cream);background:rgba(0,0,0,.25);border:1px solid rgba(201,168,76,.22);padding:5px 10px;width:260px;outline:none;flex-shrink:0}
@@ -840,7 +840,7 @@ table.tbl tr:hover td{background:rgba(201,168,76,.035)}
   border-radius:2px;
   cursor:default}
 
-/* AI-tell phrases — muted rose */
+/* Stock phrases — muted rose */
 .mis-hl-ai{
   background:rgba(170,70,70,.11);
   border-bottom:1.5px solid rgba(170,70,70,.55);
@@ -1527,8 +1527,8 @@ body.wide-mode #p-read::after{left:0}
       <button id="ch-ideas-goto" onclick="goToIdeasBoard()">Open Ideas Board &#8594;</button>
     </div>
   </div>
-  <button id="btn-mis-hl" title="Highlight overused phrases, hedge words, and AI tells in this chapter">&#9679; Mistakes</button>
-  <div id="mis-hl-legend"><span class="legend-swatch" style="background:rgba(201,168,76,.65)"></span>Overused&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(200,120,50,.6)"></span>Hedge&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(170,70,70,.55)"></span>AI tell&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(220,60,60,.9)"></span>Critical&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(140,100,220,.6)"></span>Parallel</div>
+  <button id="btn-mis-hl" title="Highlight overused phrases, hedge words, and stock phrasing in this chapter">&#9679; Mistakes</button>
+  <div id="mis-hl-legend"><span class="legend-swatch" style="background:rgba(201,168,76,.65)"></span>Overused&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(200,120,50,.6)"></span>Hedge&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(170,70,70,.55)"></span>Generic&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(220,60,60,.9)"></span>Critical&nbsp;&nbsp;<span class="legend-swatch" style="background:rgba(140,100,220,.6)"></span>Parallel</div>
   <div id="reader">
     <div id="reader-stars" aria-hidden="true"></div>
     <div id="read-progress"></div>
@@ -3382,7 +3382,7 @@ body.wide-mode #p-read::after{left:0}
     <div class="tool-d">The open questions that drive the novel forward. Bloodline Parallels, Echo Map, and 20 Rulings below &#8212; type your ruling, save, persists.</div>
   </div>
   <div class="cmp-api-row">
-    <span class="cmp-api-label">AI Features</span>
+    <span class="cmp-api-label">Compass Features</span>
     <input type="password" id="cmp-api-input" class="cmp-api-input" placeholder="Paste Anthropic API key…" oninput="saveCompassApiKey(this.value)">
     <span class="cmp-api-status" id="cmp-api-status"></span>
   </div>
@@ -3697,7 +3697,7 @@ body.wide-mode #p-read::after{left:0}
 <div id="p-voice" class="panel tool-panel">
   <div>
     <div class="tool-h">Human Voice Checker</div>
-    <div class="tool-d">Detect AI-tell phrases, structural patterns, and prose habits that weaken the voice. Paste any passage below.</div>
+    <div class="tool-d">Detect stock phrasing, structural patterns, and prose habits that weaken the voice. Paste any passage below.</div>
   </div>
   <textarea id="voice-in" class="paste" placeholder="Paste a passage or chapter excerpt here&#8230;"></textarea>
   <div class="row">
@@ -7441,7 +7441,7 @@ function getHighlightPhrases(ch) {
 
 
 
-  // AI-tell phrases
+  // Stock phrases
 
   var aiTells = [
 
@@ -8202,7 +8202,7 @@ function renderCompass() {
 
     if (!hasAnswer)
 
-      h += '<button class="cmp-btn-ask" id="cmp-ask-' + i + '" onclick="generateDirections(' + i + ')">Ask AI</button>';
+      h += '<button class="cmp-btn-ask" id="cmp-ask-' + i + '" onclick="generateDirections(' + i + ')">Get Directions</button>';
 
     h += '<span class="cmp-saved-flash" id="cmp-saved-' + i + '">Saved</span>';
 
@@ -8226,7 +8226,7 @@ function renderCompass() {
 
     h += '</div>';
 
-    /* AI directions (persisted) */
+    /* Suggested directions (persisted) */
 
     if (t.directions && t.directions.length) {
 
@@ -8300,7 +8300,7 @@ function getVoiceChecks(text) {
 
 
 
-  // AI-tell phrases
+  // Stock phrases
 
   var aiTells = [
 
@@ -8334,7 +8334,7 @@ function getVoiceChecks(text) {
 
   if (found.length > 0) {
 
-    checks.push({ label: "AI-Tell Phrases (" + found.length + " found)", items: found, severity: "high" });
+    checks.push({ label: "Stock Phrases (" + found.length + " found)", items: found, severity: "high" });
 
   }
 
@@ -8514,7 +8514,7 @@ function runVoiceCheck(chapterTitle) {
 
   if (checks.length === 0) {
 
-    h += "<div class=\"voice-clean\">No major AI tells or prose habits detected. Voice reads as human.</div>";
+    h += "<div class=\"voice-clean\">No major stock-phrasing or prose habits detected. Voice reads clean.</div>";
 
     out.innerHTML = h;
 
@@ -9428,7 +9428,7 @@ function buildArchitecture() {
 
 // ═══════════════════════════════════════════════════════════════════════════
 
-// STORY COMPASS  —  AI FEATURES
+// STORY COMPASS FEATURES
 
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -9510,7 +9510,7 @@ async function callCompassAPI(prompt, maxTokens) {
 
   }
 
-  if (resp.status === 401) throw new Error('Invalid API key — double-check what you pasted into the AI key field.');
+  if (resp.status === 401) throw new Error('Invalid API key — double-check what you pasted into the key field.');
 
   if (resp.status === 403) throw new Error('API key not authorized — check your Anthropic plan.');
 
@@ -9652,7 +9652,7 @@ async function saveAnswer(idx) {
 
         + '<div class="cmp-followup-label">Next question to consider</div>'
 
-        + '<div class="cmp-followup">Add your API key in settings to unlock AI features.</div>'
+        + '<div class="cmp-followup">Add your API key in settings to unlock Compass features.</div>'
 
         + '</div>';
 
@@ -9852,7 +9852,7 @@ async function checkContradictions() {
 
 
 
-/* ── Ask AI: three possible directions ─────────────────────────────────── */
+/* ── Get Directions: three possible options ── */
 
 
 
@@ -9890,7 +9890,7 @@ async function generateDirections(idx) {
 
       + '<div class="cmp-direction-item" style="padding-left:0">'
 
-      + 'Add your API key in settings to unlock AI features.</div>';
+      + 'Add your API key in settings to unlock Compass features.</div>';
 
     return;
 
@@ -10018,7 +10018,7 @@ async function generateCompassSummary() {
 
   if (!key) {
 
-    if (body) body.textContent = 'Add your API key in settings to unlock AI features.';
+    if (body) body.textContent = 'Add your API key in settings to unlock Compass features.';
 
     return;
 
@@ -10383,6 +10383,6 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <button id="btn-update" onclick="forceUpdate()" title="Get latest updates">&#8635; Update</button>
-<div id="bwr-footer">&#169; 2026  &nbsp;&middot;&nbsp; <em>The Bone Wolf River</em>&#8482; &nbsp;&middot;&nbsp; All rights reserved. Unpublished manuscript.</div>
+<div id="bwr-footer">&#169; 2026  &nbsp;&middot;&nbsp; <em>The Bone Wolf River</em>&#8482; &nbsp;&middot;&nbsp; All rights reserved. Unpublished manuscript.<br>Artwork is AI-generated — I can’t draw and can’t afford an artist. Donations welcome.</div>
 </body>
 </html>
